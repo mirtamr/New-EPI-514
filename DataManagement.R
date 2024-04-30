@@ -270,6 +270,28 @@ BRFSS$income.f <- factor(BRFSS$income,
 table(BRFSS$income.f)
 
 
+#employement 
+
+
+BRFSS$employ[BRFSS$employ == 2] <- 0 
+BRFSS$employ[BRFSS$employ == 3] <- 0
+BRFSS$employ[BRFSS$employ == 4] <- 0 
+BRFSS$employ[BRFSS$employ == 5] <- 0 
+BRFSS$employ[BRFSS$employ == 6] <- 0 
+BRFSS$employ[BRFSS$employ == 7] <- 0 
+BRFSS$employ[BRFSS$employ == 8] <- 0 
+BRFSS$employ[BRFSS$employ == 9] <- NA 
+
+table(BRFSS$employ, useNA="ifany")
+
+
+BRFSS$employ.f <- factor(BRFSS$employ, 
+                         levels=c(0,1), 
+                         labels=c("Employed", "Not Employed"))
+
+table(BRFSS$employ.f, useNA="ifany")
+
+
 #saving as csv file 
 
 write.csv(BRFSS, "cleanbrfss.csv")
