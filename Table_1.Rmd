@@ -13,9 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 library(gtsummary)
 library(tidyverse)
 
-
-
-
 ```
 
 
@@ -24,6 +21,10 @@ library(tidyverse)
 BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/cleanbrfss.csv")
 ```
 
+```{r}
+
+BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/cleanbrfss.csv") 
+```
 
 
 ```{r }
@@ -60,16 +61,64 @@ table1 <- BRFSS %>%
                 insurance.f ~ "Health Coverage",
                 edu.f ~ "Education Status",
                 age.f~ "Age (years)", 
-                GenHlth.f ~ "Health Status"
-              )) %>%  
+                GenHlth.f ~ "Health Status", 
+                na_suffix = " (NA %) "
+              )) %>% 
   add_overall()  %>%
                    modify_header(label = "**Variable**") %>%
                    modify_spanning_header(list(stat_1 ~ "**Cervical Cancer Screening**",
                                                stat_2 ~ "**Cervical Cancer Screening**"
-                                               ))
+                                               )) 
+  
 
+
+print(table1)
 
 
 ```
 
- add_overall()Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(gtsummary)
+
+theme_gtsummary_journal(journal = "jama")
+theme_gtsummary_compact(font_size = 10)
+
+table1 <- BRFSS %>%
+  select("CervScrnEver.f", "HlthDiscrim.f", "RaceOthers.f", "income.f", 
+         "employ.f", "insurance.f", "edu.f", "age.f", "GenHlth.f") %>%
+  tbl_summary(by = "CervScrnEver.f", 
+              missing = "ifany", 
+              type = list(
+                HlthDiscrim.f ~ "categorical", 
+                RaceOthers.f  ~ "categorical",
+                income.f ~ "categorical",
+                employ.f ~ "categorical",
+                insurance.f ~ "categorical",
+                edu.f ~ "categorical",
+                age.f ~ "categorical", 
+                GenHlth.f ~ "categorical"),
+              statistic = all_continuous() ~ "{mean} ({sd})",
+              digits = list(all_continuous() ~ 1,
+                            all_categorical() ~ c(0, 1)), 
+              label = list(
+                HlthDiscrim.f ~ "Perceived Discrimination", 
+                RaceOthers.f  ~ "Race and Ethnicity",
+                income.f ~ "Annual Household Income",
+                employ.f ~ "Employed",
+                insurance.f ~ "Health Coverage",
+                edu.f ~ "Education Status",
+                age.f ~ "Age (years)", 
+                GenHlth.f ~ "Health Status", 
+                na_suffix = " (NA %) "
+              )) %>% 
+  add_overall() %>%
+  modify_header(label = "**Variable**") %>%
+  modify_spanning_header(list(stat_1 ~ "**Cervical Cancer Screening**",
+                              stat_2 ~ "**Cervical Cancer Screening**"))
+ 
+
+print(table1)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
