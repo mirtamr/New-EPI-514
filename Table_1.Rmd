@@ -16,14 +16,10 @@ library(tidyverse)
 ```
 
 
-```{r sgp set up}
+```{r set up}
 
-BRFSS <- read.csv("/Users/aileenandrade/Desktop/Spring Quarter/Epi 514/BRFSS project/Data/cleanbrfss.csv")
-```
+BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/cleanbrfss.csv")
 
-```{r}
-
-BRFSS <- read.csv("/Users/aileenandrade/Desktop/Spring Quarter/Epi 514/BRFSS project/Data/cleanbrfss.csv") 
 ```
 
 
@@ -42,7 +38,7 @@ table1 <- BRFSS %>%
   select( "CervScrnEver.f", "HlthDiscrim.f","RaceOthers.f", "income.f", 
          "employ.f", "insurance.f", "edu.f", "age.f", "GenHlth.f") %>%
   tbl_summary(by = "CervScrnEver.f", 
-              missing = "always", 
+              missing = "no", 
               type = list(
                 HlthDiscrim.f ~"categorical", 
                 RaceOthers.f  ~ "categorical",

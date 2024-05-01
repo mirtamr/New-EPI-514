@@ -3,6 +3,7 @@
 rm(list=ls())
 
 BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/BRFSS") 
+BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
 setwd("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research")
 getwd()
 
@@ -44,7 +45,6 @@ BRFSS <- BRFSS[,c("state", "sex","HlthDiscrim", "CervScrnEver", "CervScrnHPV",
                   "insurance", "edu", "age", "GenHlth")]
 
 names(BRFSS) #check names included are correct
-
 
 
 
@@ -156,12 +156,13 @@ BRFSS$insurance[BRFSS$insurance==99] <- NA
 BRFSS$insurance.f[BRFSS$insurance<=10] <- 1
 BRFSS$insurance.f[BRFSS$insurance==88] <- 0
 
+
 #factoring and converting to labeled factor 
 BRFSS$insurance.f <- factor(BRFSS$insurance.f,
                       levels = 0:1,
                       labels = c("No", "Yes"))
 #checking
-table(BRFSS$insurance.f)
+table(BRFSS$insurance)
 
 
 #AGE 
@@ -295,4 +296,9 @@ table(BRFSS$employ.f, useNA="ifany")
 #saving as csv file 
 
 write.csv(BRFSS, "cleanbrfss.csv")
+
+
+## For table1 
+
+
 
