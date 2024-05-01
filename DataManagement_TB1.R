@@ -8,6 +8,7 @@ BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
 library(tidyverse)
 library(haven)
 library(foreign)
+library(dplyr)
 
 
 
@@ -36,8 +37,13 @@ BRFSS <- BRFSS[,c("state", "sex","HlthDiscrim", "CervScrnEver", "CervScrnHPV",
                   "insurance", "edu", "age", "GenHlth")]
 
 #filtering down to only those with female sex at birth and respondents to reaction to race 
+
 BRFSS <- BRFSS %>%
-  filter(sex == 1 & !is.na(HlthDiscrim))
+  filter(sex == 2 & !is.na(HlthDiscrim))
+
+
+
+           
 
 
 names(BRFSS) #check names included are correct
