@@ -96,13 +96,17 @@ table(BRFSS$RaceOthers.f)
 ###Income 
 
 table(BRFSS$income)
-BRFSS$income[BRFSS$income == "77"] <- 8
-BRFSS$income[BRFSS$income == "99"] <- 8
+
 
 BRFSS$income[BRFSS$income >= "1" & BRFSS$income<="6"] <- 0
-BRFSS$income[BRFSS$income >= "7" & BRFSS$income<="11"] <- 1
+BRFSS$income[BRFSS$income == "7"] <- 1 
+BRFSS$income[BRFSS$income == "8"] <- 1 
+BRFSS$income[BRFSS$income == "9"] <- 1
+BRFSS$income[BRFSS$income == "10"] <- 1
+BRFSS$income[BRFSS$income == "11"] <- 1
 
-
+BRFSS$income[BRFSS$income == "77"] <- 3
+BRFSS$income[BRFSS$income == "99"] <- 3
 
 
 
