@@ -35,12 +35,11 @@ theme_gtsummary_journal(journal = "jama")
 theme_gtsummary_compact(font_size = 10)
 
 table1 <- BRFSS %>%
-  select( "CervScrnEver.f", "HlthDiscrim.f","RaceOthers.f", "income.f", 
+  select( "CervScrnEver.f","RaceOthers.f", "income.f", 
          "employ.f", "insurance.f", "edu.f", "age.f", "GenHlth.f") %>%
   tbl_summary(by = "CervScrnEver.f", 
               missing = "no", 
               type = list(
-                HlthDiscrim.f ~"categorical", 
                 RaceOthers.f  ~ "categorical",
                 income.f ~ "categorical",
                 employ.f ~ "categorical",
@@ -52,7 +51,6 @@ table1 <- BRFSS %>%
               digits = list(all_continuous() ~ 1,
                             all_categorical() ~ c(0, 1)), 
               label = list(
-                HlthDiscrim.f ~ "Perceived Discrimination", 
                 RaceOthers.f  ~ "Race and Ethnicity",
                 income.f ~ "Annual Household Income",
                 employ.f ~ "Employed",

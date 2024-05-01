@@ -3,8 +3,8 @@
 
 BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
 
-# set libraries 
 
+# set libraries 
 library(tidyverse)
 library(haven)
 library(foreign)
@@ -38,12 +38,7 @@ BRFSS <- BRFSS[,c("state", "sex","HlthDiscrim", "CervScrnEver", "CervScrnHPV",
 
 #filtering down to only those with female sex at birth and respondents to reaction to race 
 
-BRFSS <- BRFSS %>%
-  filter(sex == 2 & !is.na(HlthDiscrim))
 
-
-
-           
 
 
 names(BRFSS) #check names included are correct
@@ -69,14 +64,14 @@ table(BRFSS$HlthDiscrim.f)
 BRFSS$CervScrnEver[BRFSS$CervScrnEver==2] <- 0 #assigning 0 for no
 
 
-BRFSS$CervScrnEver[BRFSS$CervScrnEver==7] <- 2 #set missing values
-BRFSS$CervScrnEver[BRFSS$CervScrnEver==9] <- 2 #set missing values
+BRFSS$CervScrnEver[BRFSS$CervScrnEver==7] <- NA #set missing values
+BRFSS$CervScrnEver[BRFSS$CervScrnEver==9] <- NA #set missing values
 
 
 
 BRFSS$CervScrnEver.f <- factor(BRFSS$CervScrnEver,
-                               levels = 0:2,
-                               labels = c("No", "Yes", "Missing"))
+                               levels = 0:1,
+                               labels = c("No", "Yes"))
 
 table(BRFSS$CervScrnEver.f) #check
 
@@ -203,13 +198,13 @@ BRFSS$age.f[BRFSS$age>=50 & BRFSS$age<=59] <- 4
 BRFSS$age.f[BRFSS$age>=60 & BRFSS$age<=65] <- 5 
 
 #turning values >65 and <25 to missing 
-BRFSS$age.f[BRFSS$age >65] <- 6
-BRFSS$age.f[BRFSS$age <25] <- 6
+BRFSS$age.f[BRFSS$age >65] <- NA
+BRFSS$age.f[BRFSS$age <25] <- NA
 
 #factoring and converting to labeled factor 
 BRFSS$age.f <- factor(BRFSS$age.f,
-                      levels = 1:6,
-                      labels = c("25-29", "30-39", "40-49", "50-59", "60-65", "Missing"))
+                      levels = 1:5,
+                      labels = c("25-29", "30-39", "40-49", "50-59", "60-65"))
 
 #checking
 table(BRFSS$age.f)
@@ -237,10 +232,9 @@ table(BRFSS$GenHlth.f)
 
 ## exclusion critera 
 
-#Completed the 2022 BRFSS Reaction to Race 
+BRFSS <- BRFSS %>%
+  filter(sex == 2 & !is.na(HlthDiscrim) & !is.na(age))
 
-
-table(BRFSS$HlthDiscrim.f, useNA="ifany")
 
 
 
