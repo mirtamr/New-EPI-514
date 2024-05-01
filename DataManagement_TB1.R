@@ -105,16 +105,14 @@ BRFSS$income[BRFSS$income == "9"] <- 1
 BRFSS$income[BRFSS$income == "10"] <- 1
 BRFSS$income[BRFSS$income == "11"] <- 1
 
-BRFSS$income[BRFSS$income == "77"] <- 3
-BRFSS$income[BRFSS$income == "99"] <- 3
+BRFSS$income[BRFSS$income == "77"] <- 2
+BRFSS$income[BRFSS$income == "99"] <- 2
 
 
 
 BRFSS$income.f <- factor(BRFSS$income, 
-                         levels = 1:8, 
-                         labels = c("<10,000", "10,000 - <15,000", "15,000 - <20,000", 
-                                    "20,000 - < 25,000", "25,000 - < 35,000", 
-                                    "35,000 - < 50,000", ">50,000", "Missing"))
+                         levels = 0:2, 
+                         labels = c("< 50,000", "≥50,000", "Missing"))
 table(BRFSS$income.f)
 
 ## Employement 
