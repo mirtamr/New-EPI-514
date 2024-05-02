@@ -219,8 +219,8 @@ table(BRFSS$age.f)
 table(BRFSS$GenHlth)
 
 #creating categories to prepare for factor variable
-BRFSS$GenHlth.f[BRFSS$GenHlth>=1 & BRFSS$GenHlth<=3] <- 1 
-BRFSS$GenHlth.f[BRFSS$GenHlth>=4 & BRFSS$GenHlth<=5] <- 2 
+BRFSS$GenHlth.f[BRFSS$GenHlth>=1 & BRFSS$GenHlth<=3] <- 2 
+BRFSS$GenHlth.f[BRFSS$GenHlth>=4 & BRFSS$GenHlth<=5] <- 1 
 BRFSS$GenHlth.f[BRFSS$GenHlth==9] <- 3
 BRFSS$GenHlth.f[BRFSS$GenHlth==7] <- 3
 
@@ -228,7 +228,7 @@ BRFSS$GenHlth.f[BRFSS$GenHlth==7] <- 3
 #factoring and converting to labeled factor 
 BRFSS$GenHlth.f <- factor(BRFSS$GenHlth.f,
                           levels = 1:3,
-                          labels = c("Excellent-Good", "Fair-Poor", "Missing"))
+                          labels = c("Fair-Poor", "Excellent-Good", "Missing"))
 
 table(BRFSS$GenHlth.f)
 
