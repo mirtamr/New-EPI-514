@@ -112,7 +112,7 @@ BRFSS$income[BRFSS$income == "99"] <- 2
 
 BRFSS$income.f <- factor(BRFSS$income, 
                          levels = 0:2, 
-                         labels = c("< 50,000", "≥50,000", "Missing"))
+                         labels = c("<50,000", "≥50,000", "Missing"))
 table(BRFSS$income.f)
 
 ## Employement 
