@@ -3,6 +3,7 @@
 
 BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/BRFSS")
 
+setwd("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research")
 
 # set libraries 
 library(tidyverse)
@@ -239,8 +240,8 @@ BRFSS <- BRFSS %>%
   filter(sex == 2 & !is.na(HlthDiscrim) & !is.na(age))
 
 
-
-
+#saving as csv to make it easier for tab1 r markdown
+write.csv(BRFSS,"BRFSS_TB1")
 
 
 
