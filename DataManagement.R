@@ -68,6 +68,22 @@ BRFSS$HlthDiscrim.f <- factor(BRFSS$HlthDiscrim,
 table(BRFSS$HlthDiscrim.f)
 
 
+#converting to binary Yes and No 
+BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==1] <-1 #adding worse than others for "Yes" 
+BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==4] <-1 # adding worse than some, better than others for "Yes" 
+
+BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==2] <-0 #same as others for NO 
+BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==3] <-0 #better than others for NO
+
+#converting into labeled factor variables 
+BRFSS$Hlthdiscrim_bin.f <- factor(BRFSS$Hlthdiscrim_bin.f,
+                              levels = 0:1, 
+                              labels = c("No", "Yes"))
+#checking 
+table(BRFSS$Hlthdiscrim_bin.f)
+
+
+
 #################### OUTCOMES (Aileen) ########################
 
 #check cervical cancer variables
