@@ -6,9 +6,10 @@ BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EP
 
 #Prevalence of Cervical cancer 
 
-prevccs <- table(BRFSS$HlthDiscrim.f, BRFSS$CervScrnEver.f)
+prevtable <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, dnn=c("Discrimination","Cervical Cancer Screening"))
 
-prevccs
+prop.table(prevtable)
+
 
 #Unadjusted PR (NO COVARIATES)
 
