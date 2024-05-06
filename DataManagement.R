@@ -3,7 +3,7 @@
 rm(list=ls())
 
 BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/BRFSS") 
-BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
+#BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
 setwd("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research")
 getwd()
 
@@ -267,7 +267,7 @@ BRFSS$jimcrow <- ifelse(BRFSS$state %in% c("1", "4", "5", "10", "12", "13",
                                            "35", "37", "40", "45", "47", "48", 
                                            "51", "54", "56", "11"), 1,0)
 
-table(BRFSS$jimcrow, NA="ifany")
+table(BRFSS$jimcrow)
 
 
 #Annual Income 
