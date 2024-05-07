@@ -13,6 +13,7 @@ prevtable <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, dnn=c("Discrim
 
 prop.table(prevtable)
 
+table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f)
 
 #Unadjusted PR (NO COVARIATES)
 
@@ -21,4 +22,8 @@ unadj <- with(BRFSS, table(Hlthdiscrim_bin.f, CervScrnEver.f))
 
 unadj
 
-epi.2by2(unadj)
+epi.2by2(unadj, method = "cross.sectional")
+
+
+
+
