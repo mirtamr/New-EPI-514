@@ -143,18 +143,26 @@ jcstrat$massoc.detail$PR.strata.wald
 
 (mhstrat <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + income.f + employ.f + insurance.f + GenHlth.f + age_bin + edu_bin, data = BRFSS))
 
-#array <- array(strat,
+#array <- array(mhstrat,
 #               dim = c(2,2,n), # this creates a 3 dimension array with n tables
 #               list(exposure = c('exposure yes', 'exposure no'), # this includes our exposure variable with relevant labels
 #                    outcomes = c('outcome yes', 'outcome no'), # this includes our outcome variable with relevant labels
 #                    confounders = 1:n)) 
 
 
-(mharray <- array(strat, 
-               dim= c(2,2,14), 
+(mharray <- array(mhstrat, 
+               dim= c(2,2,256), 
                list(exposure = c("Discrimination", "No Discrimination"), 
                     outcomes = c("Screening", "No Screening"), 
-                    confounders = 1:14)))
+                    confounders = 1:256)))
 
                  
-(epi.2by2(mharray, method = "cross.sectional"))        
+epi.2by2(mharray, method = "cross.sectional", conf.level = 0.95, units = 1, 
+         interpret = FALSE, outcome = "as.columns") 
+
+
+
+
+
+
+
