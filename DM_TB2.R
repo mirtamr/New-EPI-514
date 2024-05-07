@@ -143,7 +143,7 @@ jcstrat$massoc.detail$PR.strata.wald
 
 #adjustment for two or more confounders 
 
-(mhstrat <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + income.f + employ.f + insurance.f + GenHlth.f + age_bin + edu_bin, data = BRFSS))
+(mhstrat <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + insurance.f + age_bin + edu_bin, data = BRFSS))
 
 #array <- array(mhstrat,
 #               dim = c(2,2,n), # this creates a 3 dimension array with n tables
@@ -153,19 +153,19 @@ jcstrat$massoc.detail$PR.strata.wald
 
 
 (mharray <- array(mhstrat, 
-               dim= c(2,2,256), 
+               dim= c(2,2,32), 
                list(exposure = c("Discrimination", "No Discrimination"), 
                     outcomes = c("Screening", "No Screening"), 
-                    confounders = 1:256)))
+                    confounders = 1:32)))
 
                  
 epi.2by2(mharray, method = "cross.sectional", conf.level = 0.95, units = 1, 
          interpret = FALSE, outcome = "as.columns") 
 
 
-tab2<- table(BRFSS$income.f,BRFSS$edu.f)
-addmargins(tab2, FUN = list(Total = sum))
-table(BRFSS$edu.f)
+#tab2<- table(BRFSS$income.f,BRFSS$edu.f)
+#addmargins(tab2, FUN = list(Total = sum))
+#table(BRFSS$edu.f)
 
 
 
