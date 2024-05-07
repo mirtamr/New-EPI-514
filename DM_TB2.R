@@ -74,12 +74,47 @@ agerrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$age.f, de
 (agestrat <- epi.2by2(dat=agerrtab, method = "cross.sectional"))
 agestrat$massoc.detail$PR.strata.wald
 
+
+
+#creating categories to prepare for factor variable
+BRFSS$age_bin[BRFSS$age>=25 & BRFSS$age<=45] <- 1 
+BRFSS$age_bin[BRFSS$age>45] <- 2 
+ 
+
+#factoring and converting to labeled factor 
+BRFSS$age_bin <- factor(BRFSS$age_bin,
+                      levels = 1:2,
+                      labels = c("<=45", ">45"))
+
+#checking
+table(BRFSS$age_bin)
+
+
+
+
 ####Education 
 
 #2x2xn table, education
 edurrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$edu.f, deparse.level =2)
 (edustrat <- epi.2by2(dat=edurrtab, method = "cross.sectional"))
 edustrat$massoc.detail$PR.strata.wald
+
+
+#making education into binay variable 
+
+BRFSS$edu_bin[BRFSS$edu<=4] <-1
+BRFSS$edu_bin[BRFSS$edu==5] <-2
+BRFSS$edu_bin[BRFSS$edu==6] <-2
+
+#factoring and converting to labeled factor 
+BRFSS$edu_bin <- factor(BRFSS$edu_bin,
+                      levels = 1:2,
+                      labels = c("≤ high school", " =>college"))
+
+#checking 
+table(BRFSS$edu_bin, useNA = "ifany")
+
+
 
 ##Jim Crows 
 
@@ -101,9 +136,12 @@ jcrrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$jimcrow.f,
 jcstrat$massoc.detail$PR.strata.wald
 
 
+
+
+
 #adjustment for two or more confounders 
 
-(strat <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + income.f + employ.f + insurance.f + GenHlth.f, data = BRFSS))
+(mhstrat <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + income.f + employ.f + insurance.f + GenHlth.f + age_bin + edu_bin, data = BRFSS))
 
 #array <- array(strat,
 #               dim = c(2,2,n), # this creates a 3 dimension array with n tables
@@ -112,13 +150,11 @@ jcstrat$massoc.detail$PR.strata.wald
 #                    confounders = 1:n)) 
 
 
-(array <- array(strat, 
-               dim= c(2,2,6), 
+(mharray <- array(strat, 
+               dim= c(2,2,14), 
                list(exposure = c("Discrimination", "No Discrimination"), 
                     outcomes = c("Screening", "No Screening"), 
-                    confounders = 1:6)))
-
-
+                    confounders = 1:14)))
 
                  
-(epi.2by2(array, method = "cross.sectional"))        
+(epi.2by2(mharray, method = "cross.sectional"))        
