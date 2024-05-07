@@ -2,9 +2,9 @@
 # NAME: DATA MANAGEMENT 
 rm(list=ls())
 
-BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/BRFSS") 
-#BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
-setwd("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research")
+#BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/BRFSS") 
+BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
+#setwd("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research")
 getwd()
 
 library(tidyverse)
@@ -167,15 +167,15 @@ BRFSS$insurance[BRFSS$insurance==99] <- NA
 #creating categories to prepare for factor variable
 
 BRFSS$insurance.f[BRFSS$insurance<=10] <- 1
-BRFSS$insurance.f[BRFSS$insurance==88] <- 0
+BRFSS$insurance.f[BRFSS$insurance==88] <- 2
 
 
 #factoring and converting to labeled factor 
 BRFSS$insurance.f <- factor(BRFSS$insurance.f,
-                      levels = 0:1,
-                      labels = c("No", "Yes"))
+                      levels = 1:2,
+                      labels = c("Yes", "No"))
 #checking
-table(BRFSS$insurance)
+table(BRFSS$insurance.f)
 
 
 #AGE 
@@ -268,39 +268,45 @@ table(BRFSS$jimcrow)
 
 
 #Annual Income 
-table(BRFSS$income)
-BRFSS$income[BRFSS$income == "8"] <- 7 
-BRFSS$income[BRFSS$income == "9"] <- 7
-BRFSS$income[BRFSS$income == "10"] <- 7
-BRFSS$income[BRFSS$income == "11"] <- 7
+
+BRFSS$income[BRFSS$income >= "1" & BRFSS$income<="6"] <- 1
+BRFSS$income[BRFSS$income == "7"] <- 2
+BRFSS$income[BRFSS$income == "8"] <- 2 
+BRFSS$income[BRFSS$income == "9"] <- 2
+BRFSS$income[BRFSS$income == "10"] <- 2
+BRFSS$income[BRFSS$income == "11"] <- 2
+
+BRFSS$income[BRFSS$income == "77"] <- NA
+BRFSS$income[BRFSS$income == "99"] <- NA
+
 
 
 BRFSS$income.f <- factor(BRFSS$income, 
-                         levels = 1:7, 
-                         labels = c("<10,000", "10,000 - <15,000", "15,000 - <20,000", 
-                                    "20,000 - < 25,000", "25,000 - < 35,000", 
-                                    "35,000 - < 50,000", ">50,000"))
-
+                         levels = 1:2, 
+                         labels = c("<50,000", "≥50,000"))
 table(BRFSS$income.f)
+
+
 
 
 #employement 
 
+BRFSS$employ.f[BRFSS$employ == 1] <- 1
 
-BRFSS$employ[BRFSS$employ == 2] <- 0 
-BRFSS$employ[BRFSS$employ == 3] <- 0
-BRFSS$employ[BRFSS$employ == 4] <- 0 
-BRFSS$employ[BRFSS$employ == 5] <- 0 
-BRFSS$employ[BRFSS$employ == 6] <- 0 
-BRFSS$employ[BRFSS$employ == 7] <- 0 
-BRFSS$employ[BRFSS$employ == 8] <- 0 
-BRFSS$employ[BRFSS$employ == 9] <- NA 
+BRFSS$employ.f[BRFSS$employ == 2] <- 2 
+BRFSS$employ.f[BRFSS$employ == 3] <- 2
+BRFSS$employ.f[BRFSS$employ == 4] <- 2
+BRFSS$employ.f[BRFSS$employ == 5] <- 2
+BRFSS$employ.f[BRFSS$employ == 6] <- 2
+BRFSS$employ.f[BRFSS$employ == 7] <- 2
+BRFSS$employ.f[BRFSS$employ == 8] <- 2
 
-table(BRFSS$employ, useNA="ifany")
+BRFSS$employ.f[BRFSS$employ == 9] <- NA 
+
 
 
 BRFSS$employ.f <- factor(BRFSS$employ, 
-                         levels=c(0,1), 
+                         levels=c(1,2), 
                          labels=c("Employed", "Not Employed"))
 
 table(BRFSS$employ.f, useNA="ifany")
