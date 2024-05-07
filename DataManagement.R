@@ -72,13 +72,13 @@ table(BRFSS$HlthDiscrim.f)
 BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==1] <-1 #adding worse than others for "Yes" 
 BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==4] <-1 # adding worse than some, better than others for "Yes" 
 
-BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==2] <-0 #same as others for NO 
-BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==3] <-0 #better than others for NO
+BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==2] <-2 #same as others for NO 
+BRFSS$Hlthdiscrim_bin.f[BRFSS$HlthDiscrim==3] <-2 #better than others for NO
 
 #converting into labeled factor variables 
 BRFSS$Hlthdiscrim_bin.f <- factor(BRFSS$Hlthdiscrim_bin.f,
-                              levels = 0:1, 
-                              labels = c("No", "Yes"))
+                              levels = 1:2, 
+                              labels = c("Yes", "No"))
 #checking 
 table(BRFSS$Hlthdiscrim_bin.f)
 
@@ -95,8 +95,6 @@ summary(BRFSS$HadHyst)
 
 ###Cervical Screen ever variable
 
-BRFSS$CervScrnEver[BRFSS$CervScrnEver==2] <- 0 #assigning 0 for no
-
 
 BRFSS$CervScrnEver[BRFSS$CervScrnEver==7] <- NA #set missing values
 BRFSS$CervScrnEver[BRFSS$CervScrnEver==9] <- NA #set missing values
@@ -105,13 +103,12 @@ summary(BRFSS$CervScrnEver) #check
 
 #factoring and converting to labeled factor 
 BRFSS$CervScrnEver.f <- factor(BRFSS$CervScrnEver,
-                            levels = 0:1,
-                            labels = c("No", "Yes"))
+                            levels = 1:2,
+                            labels = c("Yes", "No"))
 table(BRFSS$CervScrnEver.f) #check
 
 ###Cervical Screen with HPV test
 
-BRFSS$CervScrnHPV[BRFSS$CervScrnHPV==2] <- 0 #assigning 0 for no
 
 
 BRFSS$CervScrnHPV[BRFSS$CervScrnHPV==7] <- NA #set missing values
@@ -122,8 +119,8 @@ summary(BRFSS$CervScrnHPV) #check
 
 #factoring and converting to labeled factor 
 BRFSS$CervScrnHPV.f <- factor(BRFSS$CervScrnHPV,
-                               levels = 0:1,
-                               labels = c("No", "Yes"))
+                               levels = 1:2,
+                               labels = c("Yes", "No"))
 table(BRFSS$CervScrnHPV.f) #check
 
 ###Cervical Screen with PAP test
