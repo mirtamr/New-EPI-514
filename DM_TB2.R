@@ -16,6 +16,8 @@ prop.table(prevtable)
 
 table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f)
 
+(total_table <- addmargins(prevtable, FUN = list(Total = sum)))
+
 #Unadjusted PR (NO COVARIATES)
 
 #tables for cervical cancer screening 
@@ -95,7 +97,7 @@ table(BRFSS$age_bin)
 ####Education 
 
 #2x2xn table, education
-edurrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$edu.f, deparse.level =2)
+(edurrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$edu.f, deparse.level =2))
 (edustrat <- epi.2by2(dat=edurrtab, method = "cross.sectional"))
 edustrat$massoc.detail$PR.strata.wald
 
@@ -161,8 +163,9 @@ epi.2by2(mharray, method = "cross.sectional", conf.level = 0.95, units = 1,
          interpret = FALSE, outcome = "as.columns") 
 
 
-
-
+tab2<- table(BRFSS$income.f,BRFSS$edu.f)
+addmargins(tab2, FUN = list(Total = sum))
+table(BRFSS$edu.f)
 
 
 
