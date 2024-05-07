@@ -37,7 +37,7 @@ racestrat$massoc.detail$PR.strata.wald
 
 #Income 
 
-incomerrtab <-table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$income.f, deparse.level = 2)
+(incomerrtab <-table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$income.f, deparse.level = 2))
 (incomestrat <- epi.2by2(dat=incomerrtab, method = "cross.sectional"))
 incomestrat$massoc.detail$PR.strata.wald
 
@@ -67,7 +67,6 @@ HSstrat$massoc.detail$PR.strata.wald #getting stratum specific estimates
 
 
 ###Age 
-
 
 #2x2xn table, age 
 
@@ -102,3 +101,24 @@ jcrrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$jimcrow.f,
 jcstrat$massoc.detail$PR.strata.wald
 
 
+#adjustment for two or more confounders 
+
+(strat <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + income.f + employ.f + insurance.f + GenHlth.f, data = BRFSS))
+
+#array <- array(strat,
+#               dim = c(2,2,n), # this creates a 3 dimension array with n tables
+#               list(exposure = c('exposure yes', 'exposure no'), # this includes our exposure variable with relevant labels
+#                    outcomes = c('outcome yes', 'outcome no'), # this includes our outcome variable with relevant labels
+#                    confounders = 1:n)) 
+
+
+(array <- array(strat, 
+               dim= c(2,2,6), 
+               list(exposure = c("Discrimination", "No Discrimination"), 
+                    outcomes = c("Screening", "No Screening"), 
+                    confounders = 1:6)))
+
+
+
+                 
+(epi.2by2(array, method = "cross.sectional"))        
