@@ -118,26 +118,6 @@ table(BRFSS$edu_bin, useNA = "ifany")
 
 
 
-##Jim Crows 
-
-#turning coding into 1,2 
-
-BRFSS$jimcrow.f <- ifelse(BRFSS$state %in% c("1", "4", "5", "10", "12", "13", 
-                                           "20", "21", "22", "24", "28", "29", 
-                                           "35", "37", "40", "45", "47", "48", 
-                                           "51", "54", "56", "11"), 1,2)
-
-BRFSS$jimcrow.f <- factor(BRFSS$jimcrow.f, 
-                          levels= 1:2, 
-                          labels ="Yes", "No")
-
-table(BRFSS$jimcrow.f)
- #2x2x2 table, jim crow laws 
-jcrrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$jimcrow.f, deparse.level =2)
-(jcstrat <- epi.2by2(dat=jcrrtab, method = "cross.sectional"))
-jcstrat$massoc.detail$PR.strata.wald
-
-
 
 
 
@@ -166,6 +146,76 @@ epi.2by2(mharray, method = "cross.sectional", conf.level = 0.95, units = 1,
 #tab2<- table(BRFSS$income.f,BRFSS$edu.f)
 #addmargins(tab2, FUN = list(Total = sum))
 #table(BRFSS$edu.f)
+
+
+###########################################################################
+### TABLE #3: Stratied by Jim Crow States 
+
+
+#turning coding into 1,2 
+
+BRFSS$jimcrow_bin <- ifelse(BRFSS$state %in% c("1", "4", "5", "10", "12", "13", 
+                                             "20", "21", "22", "24", "28", "29", 
+                                             "35", "37", "40", "45", "47", "48", 
+                                             "51", "54", "56", "11"), 1,2)
+
+
+BRFSS$jimcrow.f <- factor(BRFSS$jimcrow_bin, 
+                          levels= 1:2, 
+                          labels ="Yes", "No")
+
+table(BRFSS$jimcrow.f)
+
+## UNADJUSTED ######################################
+
+#2x2x2 table, jim crow laws
+(jcrrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$jimcrow.f, deparse.level =2))
+prop.table(jcrrtab)
+(jcstrat <- epi.2by2(dat=jcrrtab, method = "cross.sectional"))
+jcstrat$massoc.detail$PR.strata.wald
+
+## ADJUSTED ######################################
+
+
+# exposure = percieved discrimination (2 levels, 1=Yes, 2=No)
+# outcome = cervical cancer screening (2 levels, 1=Yes, 2=No)
+# adjustment variable 1 = insurance status (2 levels, 1=Yes, 2=No)
+# adjustment variable 2 = age (2 levels, <=45", ">45") 
+# adjustment variable 3 = education (2 levels = ≤ high school", " =>college")
+# effect modifier = residence in jim crow state  (2 levels: 1=Yes, 2=No)
+
+
+# Now, to stratify by another variable, everything stays the same except when we use xtabs() we will subset the data
+#strat_y <- xtabs(~exposure + outcome + adjvar1 + adjvar2 + ... + adjvarK, data = data, subset = stratvar == 'yes')
+#strat_n <- xtabs(~exposure + outcome + adjvar1 + adjvar2 + ... + adjvarK, data = data, subset = stratvar == 'no')
+
+#jim crow - yes 
+(strat_JCy <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + insurance.f + age_bin + edu_bin, data = BRFSS, 
+                   subset = jimcrow_bin == "1"))
+
+#jim crow - no 
+(strat_JCn <- xtabs(~Hlthdiscrim_bin.f + CervScrnEver.f + insurance.f + age_bin + edu_bin, data = BRFSS, 
+                   subset = jimcrow_bin == "2"))
+
+#getting the array for jim crow- yes 
+
+(array_y <- array(strat_JCy, 
+                  dim= c(2,2,32), 
+                  list(exposure = c("Discrimination", "No Discrimination"), 
+                       outcomes = c("Screening", "No Screening"), 
+                       confounders = 1:32)))
+
+
+#getting the array for jim crow- no 
+(array_n <- array(strat_JCn, 
+                  dim= c(2,2,32), 
+                  list(exposure = c("Discrimination", "No Discrimination"), 
+                       outcomes = c("Screening", "No Screening"), 
+                       confounders = 1:32)))
+
+(epi.2by2(array_y, method = 'cross.sectional'))
+
+(epi.2by2(array_n, method = 'cross.sectional'))
 
 
 

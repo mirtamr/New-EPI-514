@@ -47,11 +47,6 @@ BRFSS <- BRFSS[,c("state", "sex","HlthDiscrim", "CervScrnEver", "CervScrnHPV",
 names(BRFSS) #check names included are correct
 
 
-tab1 <- table(BRFSS$HlthDiscrim, BRFSS$CervScrnEver, useNA="ifany")
-(total_tab <- addmargins(tab1, FUN = list(Total = sum)))
-nrow(BRFSS)
-
-
 #################### EXPOSURE (Mirta) ###################
 #checking race variables
 table(BRFSS$HlthDiscrim)
@@ -87,9 +82,9 @@ BRFSS$Hlthdiscrim_bin.f <- factor(BRFSS$Hlthdiscrim_bin.f,
 table(BRFSS$Hlthdiscrim_bin.f)
 
 BRFSS <- BRFSS %>%
-  filter(!is.na(HlthDiscrim)) # excluing those with no exposure 
+  filter(!is.na(HlthDiscrim)) 
 
-nrow(BRFSS)
+nrow(BRFSS) # 111,653 observations 
 
 
 
@@ -98,7 +93,7 @@ nrow(BRFSS)
 BRFSS <- BRFSS %>%
   filter(sex == 2) #excluding males assigned sex at birth 
 
-nrow(BRFSS)
+nrow(BRFSS) #165,515 
 
 #check cervical cancer variables
 
@@ -123,7 +118,8 @@ table(BRFSS$CervScrnEver.f) #check
 
 BRFSS <- BRFSS %>%
   filter(!is.na(CervScrnEver)) 
-nrow(BRFSS)
+
+nrow(BRFSS) #15,179 
 
 
 ###Cervical Screen with HPV test
@@ -208,7 +204,7 @@ BRFSS$age[BRFSS$age <25] <- NA
 BRFSS <- BRFSS %>%
   filter(!is.na(age)) # exlcuding age NA 
 
-nrow(BRFSS)
+nrow(BRFSS) #9,012 observations - FINAL SAMPLE 
 
 #creating categories to prepare for factor variable
 BRFSS$age.f[BRFSS$age>=25 & BRFSS$age<=29] <- 1 
@@ -337,15 +333,9 @@ table(BRFSS$employ.f, useNA="ifany")
 
 #saving as csv file 
 
-write.csv(BRFSS, "cleanbrfss.csv")
+##write.csv(BRFSS, "cleanbrfss.csv")
 
 
-## exclusion critera 
-
-BRFSS <- BRFSS %>%
-  filter(sex == 2 & !is.na(HlthDiscrim) & !is.na(age))
-
-nrow(BRFSS)
 
 ## For table1 
 
