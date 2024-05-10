@@ -15,11 +15,20 @@ library(foreign)
 View(BRFSS)
 names(BRFSS)
 
+sextab <- table(BRFSS$SEXVAR, BRFSS$BIRTHSEX, useNA="ifany")
+(addmargins(sextab, FUN = list(Total = sum)))
+
+table(BRFSS$SEXVAR, useNA='ifany') 
+table(BRFSS$BIRTHSEX, useNA='ifany') 
+
+##SEXVAR = 1(male), 2(female)
+##BIRTHSEX = 1(male), 2(female), 7(not sure), 9(refused)
+
 grep("sex", names(BRFSS), value=TRUE) #check for different sex variables
 
 #renaming variables working with 
 names(BRFSS)[names(BRFSS) == "X_STATE"] <- "state"
-names(BRFSS)[names(BRFSS) == "BIRTHSEX"] <- "sex"
+names(BRFSS)[names(BRFSS) == "SEXVAR"] <- "sex"
 names(BRFSS)[names(BRFSS) == "RRHCARE4"] <- "HlthDiscrim"
 names(BRFSS)[names(BRFSS) == "CERVSCRN"] <- "CervScrnEver"
 names(BRFSS)[names(BRFSS) == "CRVCLHPV"] <- "CervScrnHPV"
@@ -81,19 +90,10 @@ BRFSS$Hlthdiscrim_bin.f <- factor(BRFSS$Hlthdiscrim_bin.f,
 #checking 
 table(BRFSS$Hlthdiscrim_bin.f)
 
-BRFSS <- BRFSS %>%
-  filter(!is.na(HlthDiscrim)) 
-
-nrow(BRFSS) # 111,653 observations 
-
 
 
 #################### OUTCOMES (Aileen) ########################
 
-BRFSS <- BRFSS %>%
-  filter(sex == 2) #excluding males assigned sex at birth 
-
-nrow(BRFSS) #165,515 
 
 #check cervical cancer variables
 
@@ -115,11 +115,6 @@ BRFSS$CervScrnEver.f <- factor(BRFSS$CervScrnEver,
                             levels = 1:2,
                             labels = c("Yes", "No"))
 table(BRFSS$CervScrnEver.f) #check
-
-BRFSS <- BRFSS %>%
-  filter(!is.na(CervScrnEver)) 
-
-nrow(BRFSS) #15,179 
 
 
 ###Cervical Screen with HPV test
@@ -201,8 +196,7 @@ table(BRFSS$age)
 BRFSS$age[BRFSS$age >65] <- NA
 BRFSS$age[BRFSS$age <25] <- NA
 
-BRFSS <- BRFSS %>%
-  filter(!is.na(age)) # exlcuding age NA 
+
 
 nrow(BRFSS) #9,012 observations - FINAL SAMPLE 
 
@@ -334,6 +328,30 @@ table(BRFSS$employ.f, useNA="ifany")
 #saving as csv file 
 
 ##write.csv(BRFSS, "cleanbrfss.csv")
+
+
+BRFSS <- BRFSS %>%
+  filter(sex == 2) #
+
+nrow(BRFSS) #188,264 - sex female 
+
+BRFSS <- BRFSS %>%
+  filter(!is.na(HlthDiscrim)) 
+
+nrow(BRFSS) #59,789 
+
+
+BRFSS <- BRFSS %>%
+  filter(!is.na(age)) # 
+
+
+BRFSS <- BRFSS %>%
+  filter(!is.na(CervScrnEver)) 
+
+
+
+nrow(BRFSS) #33,104 
+
 
 
 

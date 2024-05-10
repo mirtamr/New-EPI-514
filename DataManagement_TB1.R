@@ -3,6 +3,10 @@
 
 BRFSS <- read.csv("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research/BRFSS")
 
+##samantha set up 
+
+BRFSS <- read.csv("/Users/samanthagarciaperez/Desktop/EPI 514/R/BRFSS")
+
 setwd("/Users/mirtamaravilla/Documents/UW Courses/Spring Qtr 2024/EPI 514 /EPI 514 Research")
 
 # set libraries 
@@ -10,8 +14,6 @@ library(tidyverse)
 library(haven)
 library(foreign)
 library(dplyr)
-
-
 
 
 #renaming variables working with 
@@ -60,6 +62,13 @@ BRFSS$HlthDiscrim.f <- factor(BRFSS$HlthDiscrim,
                                          "Better than others", "Worse than some,better than others", "Missing"))
 table(BRFSS$HlthDiscrim.f)
 
+
+BRFSS <- BRFSS %>%
+  filter(!is.na(HlthDiscrim))
+
+nrow(BRFSS) #129041 observations 
+
+
 #################### OUTCOME ###################
 
 BRFSS$CervScrnEver[BRFSS$CervScrnEver==2] <- 0 #assigning 0 for no
@@ -77,7 +86,19 @@ BRFSS$CervScrnEver.f <- factor(BRFSS$CervScrnEver,
 table(BRFSS$CervScrnEver.f) #check
 
 
+
+
 #################### COVAR ###################
+
+##Sex - filtering down for those on assinged female sex at bith 
+
+BRFSS$sex[BRFSS$sex == 7] <- NA
+BRFSS$sex[BRFSS$sex == 9] <- NA 
+
+BRFSS <- BRFSS %>%
+  filter(sex == 2)
+
+nrow(BRFSS) # 17,376 observations
 
 
 # RACE/ETHNCITY
@@ -214,6 +235,10 @@ BRFSS$age.f <- factor(BRFSS$age.f,
 table(BRFSS$age.f)
 
 
+BRFSS <- BRFSS %>%
+  filter(!is.na(age))
+
+nrow(BRFSS) #63,786 observations
 
 
 #GENHLTH
@@ -241,7 +266,7 @@ BRFSS <- BRFSS %>%
 
 
 #saving as csv to make it easier for tab1 r markdown
-write.csv(BRFSS,"BRFSS_TB1")
+##write.csv(BRFSS,"BRFSS_TB1")
 
 
 

@@ -10,9 +10,9 @@ library(epiR)
 
 #Prevalence of Cervical cancer 
 
-prevtable <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, dnn=c("Discrimination","Cervical Cancer Screening"))
+(prevtable <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, dnn=c("Discrimination","Cervical Cancer Screening")))
 
-prop.table(prevtable)
+prop.table(prevtable)*100
 
 table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f)
 
@@ -169,10 +169,18 @@ table(BRFSS$jimcrow.f)
 ## UNADJUSTED ######################################
 
 #2x2x2 table, jim crow laws
-(jcrrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$jimcrow.f, deparse.level =2))
+(jcrrtab <- table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$jimcrow_bin, deparse.level =2))
+
 prop.table(jcrrtab)
+(addmargins(jcrrtab, FUN = list(Total = sum)))
+
+
+
 (jcstrat <- epi.2by2(dat=jcrrtab, method = "cross.sectional"))
 jcstrat$massoc.detail$PR.strata.wald
+
+
+
 
 ## ADJUSTED ######################################
 
@@ -216,6 +224,8 @@ jcstrat$massoc.detail$PR.strata.wald
 (epi.2by2(array_y, method = 'cross.sectional'))
 
 (epi.2by2(array_n, method = 'cross.sectional'))
+
+
 
 
 
