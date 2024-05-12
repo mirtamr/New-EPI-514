@@ -149,6 +149,16 @@ epi.2by2(mharray, method = "cross.sectional", conf.level = 0.95, units = 1,
 
 
 ###########################################################################
+##Stateified by Race 
+
+#Race
+
+racerrtab <-table(BRFSS$Hlthdiscrim_bin.f, BRFSS$CervScrnEver.f, BRFSS$RaceOthers.f, deparse.level = 2)
+(racestrat <- epi.2by2(dat=racerrtab, method = "cross.sectional"))
+racestrat$massoc.detail$PR.strata.wald
+
+
+###########################################################################
 ### TABLE #3: Stratied by Jim Crow States 
 
 
